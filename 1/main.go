@@ -13,6 +13,18 @@ func check(e error) {
 	}
 }
 
+func calc(j int, result int) int {
+	z := (j / 3) - 2
+	result += z
+
+	if z > 6 {
+		return calc(z, result)
+	}
+
+	return result
+
+}
+
 func main() {
 	inputBytes, err := ioutil.ReadFile("./input.txt")
 	check(err)
@@ -29,7 +41,8 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
-		z := (int(j) / 3) - 2
+		z := calc(j, 0)
+		// fmt.Println(z)
 		sum += z
 	}
 	fmt.Println(sum)
