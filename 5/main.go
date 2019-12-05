@@ -59,9 +59,11 @@ func main() {
 		numbers[i], _ = strconv.Atoi(s)
 	}
 	i := 0
+	userInput := 5
 
 	for true {
 		opcode, posmod1, posmod2, _ := parse(numbers[i])
+
 		// fmt.Println("op", opcode, numbers[i])
 		if opcode == 1 {
 			to := numbers[i+3]
@@ -110,9 +112,9 @@ func main() {
 		}
 
 		if opcode == 3 {
-			input := 1
+
 			to := numbers[i+1]
-			numbers[to] = input
+			numbers[to] = userInput
 			i += 2
 			continue
 		}
@@ -121,6 +123,112 @@ func main() {
 			from := numbers[i+1]
 			fmt.Println("Output", numbers[from])
 			i += 2
+			continue
+		}
+
+		if opcode == 5 {
+			var a, b int
+
+			if posmod1 {
+				from := numbers[i+1]
+				a = numbers[from]
+			} else {
+				a = numbers[i+1]
+			}
+
+			if posmod2 {
+				from := numbers[i+2]
+				b = numbers[from]
+			} else {
+				b = numbers[i+2]
+			}
+
+			if a != 0 {
+				i = b
+			} else {
+				i += 3
+			}
+			continue
+		}
+
+		if opcode == 6 {
+			var a, b int
+
+			if posmod1 {
+				from := numbers[i+1]
+				a = numbers[from]
+			} else {
+				a = numbers[i+1]
+			}
+
+			if posmod2 {
+				from := numbers[i+2]
+				b = numbers[from]
+			} else {
+				b = numbers[i+2]
+			}
+
+			if a == 0 {
+				i = b
+			} else {
+				i += 3
+			}
+			continue
+		}
+
+		if opcode == 7 {
+			var a, b int
+			to := numbers[i+3]
+
+			if posmod1 {
+				from := numbers[i+1]
+				a = numbers[from]
+			} else {
+				a = numbers[i+1]
+			}
+
+			if posmod2 {
+				from := numbers[i+2]
+				b = numbers[from]
+			} else {
+				b = numbers[i+2]
+			}
+
+			if a < b {
+				numbers[to] = 1
+			} else {
+				numbers[to] = 0
+			}
+
+			i += 4
+			continue
+		}
+
+		if opcode == 8 {
+			var a, b int
+			to := numbers[i+3]
+
+			if posmod1 {
+				from := numbers[i+1]
+				a = numbers[from]
+			} else {
+				a = numbers[i+1]
+			}
+
+			if posmod2 {
+				from := numbers[i+2]
+				b = numbers[from]
+			} else {
+				b = numbers[i+2]
+			}
+
+			if a == b {
+				numbers[to] = 1
+			} else {
+				numbers[to] = 0
+			}
+
+			i += 4
 			continue
 		}
 
@@ -140,7 +248,7 @@ func main() {
 			break
 		}
 
-		panic("Strange op code: " + string(numbers[i]) + " i:" + string(i))
+		panic("Strange op code: " + strconv.Itoa(opcode) + " i: " + strconv.Itoa(numbers[i]))
 	}
 
 }
