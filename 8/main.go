@@ -46,19 +46,20 @@ func main() {
 		layers[curLayer] = append(layers[curLayer], n)
 		x++
 	}
+	finalImage := make([]int, maxY*maxX)
 
-	fewestI := 0
-	fewestCount := 1000
-	for i, l := range layers {
-		n := findNum(&l, 0)
-		fmt.Println("len", len(l), n)
-		if n < fewestCount {
-			fewestI = i
-			fewestCount = n
+	for i := range layers[0] {
+		// curPixelValue := 2
+		for _, l := range layers {
+			if l[i] == 2 {
+				continue
+			}
+			finalImage[i] = l[i]
+			break
 		}
 	}
-
-	fmt.Println(fewestI, len(layers))
-	fmt.Println(findNum(&layers[fewestI], 1) * findNum(&layers[fewestI], 2))
+	for i := 0; i < maxX*maxY; i += maxX {
+		fmt.Println(finalImage[i : i+maxX])
+	}
 
 }
